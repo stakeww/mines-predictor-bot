@@ -25,13 +25,9 @@ export async function registerRoutes(
         [allSpots[i], allSpots[j]] = [allSpots[j], allSpots[i]];
       }
       
-      // Select the number of spots based on user selection
-      // But typically "signals" show a few safe spots, not ALL non-mine spots
-      // Let's show exactly 5 safe spots if mines < 20, or fewer if mines are high
-      const maxPossibleSpots = 25 - input.minesCount;
-      const spotsCount = input.minesCount >= 20 ? Math.max(1, maxPossibleSpots) : Math.min(5, maxPossibleSpots);
-      
-      const predictedSpots = spotsCount > 0 ? allSpots.slice(0, spotsCount) : []; 
+      // Select all spots except the number of mines selected
+      const spotsCount = 25 - input.minesCount;
+      const predictedSpots = allSpots.slice(0, spotsCount); 
 
       const prediction = await storage.createPrediction({
         minesCount: input.minesCount,
