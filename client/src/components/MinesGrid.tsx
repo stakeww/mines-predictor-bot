@@ -35,14 +35,14 @@ export function MinesGrid({ predictedSpots, isAnimating }: MinesGridProps) {
                     type: "spring",
                     stiffness: 260,
                     damping: 20,
-                    delay: predictedSpots.indexOf(index) * 0.1 // Animation order based on prediction list
+                    delay: predictedSpots.indexOf(index) * 0.15 // Slightly slower stagger for better visual effect
                   }}
-                  className="absolute inset-0 flex items-center justify-center p-2"
+                  className="absolute inset-0 flex items-center justify-center p-0.5"
                 >
                   <img 
                     src={gemImg} 
                     alt="Gem" 
-                    className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(0,231,1,0.4)]"
+                    className="w-[90%] h-[90%] object-contain drop-shadow-[0_0_12px_rgba(0,231,1,0.6)]"
                   />
                 </motion.div>
               )}
