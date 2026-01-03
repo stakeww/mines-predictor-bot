@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCreatePrediction } from "@/hooks/use-predictions";
 import { MinesGrid } from "@/components/MinesGrid";
 import { Loader2, Dices } from "lucide-react";
@@ -12,11 +12,15 @@ export default function MinesBot() {
   const [predictedSpots, setPredictedSpots] = useState<number[]>([]);
   const { mutate: getPrediction, isPending } = useCreatePrediction();
   const { toast } = useToast();
+  const [isInitializing, setIsInitializing] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsInitializing(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handlePredict = () => {
-    // Clear previous prediction immediately to trigger exit animations if any
     setPredictedSpots([]);
-
     getPrediction(minesCount, {
       onSuccess: (data) => {
         setPredictedSpots(data.predictedSpots);
@@ -31,16 +35,49 @@ export default function MinesBot() {
     });
   };
 
-  // Generate options for 1-24 mines
   const mineOptions = Array.from({ length: 24 }, (_, i) => i + 1);
+
+  if (isInitializing) {
+    return (
+      <div className="min-h-screen bg-[#0f212e] flex flex-col items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="flex flex-col items-center gap-8"
+        >
+          <div className="relative">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              className="w-32 h-32 border-4 border-primary/10 border-t-primary rounded-full"
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <img 
+                src={stakeLogo} 
+                alt="Logo" 
+                className="w-16 h-16 object-contain"
+                style={{ filter: 'brightness(0) invert(1)' }}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <h2 className="text-white font-display font-black text-2xl tracking-tighter">MINES BOT</h2>
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: "100%" }}
+              transition={{ duration: 2 }}
+              className="h-1 bg-primary rounded-full w-48"
+            />
+            <p className="text-muted-foreground text-xs font-bold tracking-widest uppercase mt-2">Initializing System</p>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0f212e] flex flex-col items-center justify-start sm:justify-center py-4 sm:py-8 px-4 font-sans safe-area-inset">
-      
-      {/* Container simulating the mobile app view */}
       <div className="w-full max-w-[440px] flex flex-col gap-4 sm:gap-6">
-        
-        {/* Header */}
         <header className="flex items-center justify-center gap-4 py-2 sm:py-4 mb-1 sm:mb-2">
           <img 
             src={stakeLogo} 
@@ -57,11 +94,8 @@ export default function MinesBot() {
           </div>
         </header>
 
-        {/* Main Grid Area */}
         <div className="relative">
             <MinesGrid predictedSpots={predictedSpots} isAnimating={isPending} />
-            
-            {/* Loading Overlay */}
             <AnimatePresence>
               {isPending && (
                 <motion.div 
@@ -91,7 +125,7 @@ export default function MinesBot() {
                         transition={{ duration: 1.5, repeat: Infinity }}
                         className="text-primary font-display font-black tracking-widest text-sm"
                      >
-                        АНАЛИЗ...
+                        ANALYZING...
                      </motion.p>
                    </div>
                 </motion.div>
@@ -99,13 +133,11 @@ export default function MinesBot() {
             </AnimatePresence>
         </div>
 
-        {/* Controls */}
         <div className="bg-card rounded-t-2xl p-6 flex flex-col gap-5 shadow-2xl border-t border-white/5 mt-4">
-          
           <div className="space-y-2">
             <div className="flex justify-between items-end">
-              <label className="text-sm font-semibold text-white/90">Мины</label>
-              <span className="text-xs text-muted-foreground font-medium">1-24 мины</span>
+              <label className="text-sm font-semibold text-white/90">Mines</label>
+              <span className="text-xs text-muted-foreground font-medium">1-24 mines</span>
             </div>
             
             <Select 
@@ -132,7 +164,7 @@ export default function MinesBot() {
 
           <div className="space-y-2 text-center">
             <p className="text-xs font-medium text-muted-foreground/80 uppercase tracking-widest">
-              Получить сигнал
+              Get Signal
             </p>
           </div>
 
@@ -152,20 +184,19 @@ export default function MinesBot() {
             {isPending ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                РАСЧЕТ...
+                CALCULATING...
               </>
             ) : (
-              "ПОЛУЧИТЬ СИГНАЛ"
+              "GET SIGNAL"
             )}
           </button>
 
           <div className="flex justify-center mt-2">
              <div className="flex items-center gap-2 text-xs text-[#2f4553] font-mono">
                 <Dices className="w-4 h-4" />
-                <span>ДОКАЗУЕМО ЧЕСТНО</span>
+                <span>PROVABLY FAIR</span>
              </div>
           </div>
-
         </div>
       </div>
     </div>
