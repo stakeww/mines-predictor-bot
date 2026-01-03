@@ -20,7 +20,7 @@ export const api = {
       method: 'POST' as const,
       path: '/api/predictions',
       input: z.object({ 
-        minesCount: z.number().min(1).max(24) 
+        minesCount: z.number().min(1).max(25) 
       }),
       responses: {
         201: z.object({
