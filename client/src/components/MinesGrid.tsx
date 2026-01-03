@@ -11,7 +11,7 @@ export function MinesGrid({ predictedSpots, isAnimating }: MinesGridProps) {
   const cells = Array.from({ length: 25 }, (_, i) => i);
 
   return (
-    <div className="grid grid-cols-5 gap-3 p-4 bg-card rounded-xl border border-white/5 shadow-xl w-full max-w-[400px] aspect-square mx-auto">
+    <div className="grid grid-cols-5 gap-2 sm:gap-3 p-2 sm:p-4 bg-card rounded-xl border border-white/5 shadow-xl w-full max-w-[400px] aspect-square mx-auto">
       {cells.map((index) => {
         const isPredicted = predictedSpots.includes(index);
 
@@ -20,7 +20,7 @@ export function MinesGrid({ predictedSpots, isAnimating }: MinesGridProps) {
             key={index}
             className={`
               relative rounded-lg overflow-hidden
-              bg-[#2f4553] shadow-inner border-b-4 border-[#213743]
+              bg-[#2f4553] shadow-inner border-b-[3px] sm:border-b-4 border-[#213743]
               hover:bg-[#395261] transition-colors duration-200
               flex items-center justify-center
             `}

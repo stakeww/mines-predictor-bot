@@ -35,25 +35,25 @@ export default function MinesBot() {
   const mineOptions = Array.from({ length: 24 }, (_, i) => i + 1);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center py-8 px-4 font-sans">
+    <div className="min-h-screen bg-[#0f212e] flex flex-col items-center justify-start sm:justify-center py-4 sm:py-8 px-4 font-sans safe-area-inset">
       
       {/* Container simulating the mobile app view */}
-      <div className="w-full max-w-[440px] flex flex-col gap-6">
+      <div className="w-full max-w-[440px] flex flex-col gap-4 sm:gap-6">
         
         {/* Header */}
-        <header className="flex items-center justify-center gap-4 py-4 mb-2">
+        <header className="flex items-center justify-center gap-4 py-2 sm:py-4 mb-1 sm:mb-2">
           <img 
             src={stakeLogo} 
             alt="Mines Bot Logo" 
-            className="h-12 w-auto object-contain drop-shadow-[0_0_2px_rgba(0,0,0,1)] invert brightness-0"
+            className="h-10 sm:h-12 w-auto object-contain"
             style={{ 
               filter: 'brightness(0) invert(1) drop-shadow(1px 1px 0px black) drop-shadow(-1px -1px 0px black) drop-shadow(1px -1px 0px black) drop-shadow(-1px 1px 0px black)' 
             }}
           />
-          <div className="h-8 w-[2px] bg-[#2f4553] rounded-full"></div>
+          <div className="h-6 sm:h-8 w-[2px] bg-[#2f4553] rounded-full"></div>
           <div className="flex flex-col">
-            <span className="text-sm font-bold text-muted-foreground leading-none">MINES</span>
-            <span className="text-sm font-bold text-white leading-none">BOT</span>
+            <span className="text-[10px] sm:text-sm font-bold text-muted-foreground leading-none">MINES</span>
+            <span className="text-[10px] sm:text-sm font-bold text-white leading-none">BOT</span>
           </div>
         </header>
 
