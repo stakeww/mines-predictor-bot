@@ -4,6 +4,7 @@ import { MinesGrid } from "@/components/MinesGrid";
 import { Loader2, Dices } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import stakeLogo from "@assets/IMG_1152_1767458795544.png";
 
 export default function MinesBot() {
   const [minesCount, setMinesCount] = useState<number>(3);
@@ -40,9 +41,11 @@ export default function MinesBot() {
         
         {/* Header */}
         <header className="flex items-center justify-center gap-4 py-4 mb-2">
-          <h1 className="text-3xl font-display font-black tracking-tighter italic text-white">
-            Stake
-          </h1>
+          <img 
+            src={stakeLogo} 
+            alt="Mines Bot Logo" 
+            className="h-12 w-auto object-contain"
+          />
           <div className="h-8 w-[2px] bg-[#2f4553] rounded-full"></div>
           <div className="flex flex-col">
             <span className="text-sm font-bold text-muted-foreground leading-none">MINES</span>
@@ -67,8 +70,8 @@ export default function MinesBot() {
           
           <div className="space-y-2">
             <div className="flex justify-between items-end">
-              <label className="text-sm font-semibold text-white/90">Mines</label>
-              <span className="text-xs text-muted-foreground font-medium">1-24 mines</span>
+              <label className="text-sm font-semibold text-white/90">Мины</label>
+              <span className="text-xs text-muted-foreground font-medium">1-24 мины</span>
             </div>
             
             <Select 
@@ -95,7 +98,7 @@ export default function MinesBot() {
 
           <div className="space-y-2 text-center">
             <p className="text-xs font-medium text-muted-foreground/80 uppercase tracking-widest">
-              Receive Min Signal
+              Получить сигнал
             </p>
           </div>
 
@@ -115,17 +118,17 @@ export default function MinesBot() {
             {isPending ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                CALCULATING...
+                РАСЧЕТ...
               </>
             ) : (
-              "GET SIGNAL"
+              "ПОЛУЧИТЬ СИГНАЛ"
             )}
           </button>
 
           <div className="flex justify-center mt-2">
              <div className="flex items-center gap-2 text-xs text-[#2f4553] font-mono">
                 <Dices className="w-4 h-4" />
-                <span>PROVABLY FAIR</span>
+                <span>ДОКАЗУЕМО ЧЕСТНО</span>
              </div>
           </div>
 
