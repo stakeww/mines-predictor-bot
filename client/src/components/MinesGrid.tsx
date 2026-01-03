@@ -35,7 +35,7 @@ export function MinesGrid({ predictedSpots, isAnimating }: MinesGridProps) {
                     type: "spring",
                     stiffness: 260,
                     damping: 20,
-                    delay: index * 0.02 // Stagger effect based on index 
+                    delay: predictedSpots.indexOf(index) * 0.1 // Animation order based on prediction list
                   }}
                   className="absolute inset-0 flex items-center justify-center p-2"
                 >
