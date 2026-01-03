@@ -25,8 +25,8 @@ export async function registerRoutes(
         [allSpots[i], allSpots[j]] = [allSpots[j], allSpots[i]];
       }
       
-      // Select all spots except the number of mines selected
-      const spotsCount = 25 - input.minesCount;
+      // Select all spots except the number of mines selected (1-24)
+      const spotsCount = 25 - Math.min(24, input.minesCount);
       const predictedSpots = allSpots.slice(0, spotsCount); 
 
       const prediction = await storage.createPrediction({

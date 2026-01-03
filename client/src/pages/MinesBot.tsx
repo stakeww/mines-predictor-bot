@@ -31,8 +31,8 @@ export default function MinesBot() {
     });
   };
 
-  // Generate options for 1-25 mines
-  const mineOptions = Array.from({ length: 25 }, (_, i) => i + 1);
+  // Generate options for 1-24 mines
+  const mineOptions = Array.from({ length: 24 }, (_, i) => i + 1);
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center py-8 px-4 font-sans">
@@ -105,7 +105,7 @@ export default function MinesBot() {
           <div className="space-y-2">
             <div className="flex justify-between items-end">
               <label className="text-sm font-semibold text-white/90">Мины</label>
-              <span className="text-xs text-muted-foreground font-medium">1-25 мин</span>
+              <span className="text-xs text-muted-foreground font-medium">1-24 мины</span>
             </div>
             
             <Select 
