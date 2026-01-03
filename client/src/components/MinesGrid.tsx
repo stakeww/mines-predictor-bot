@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Star } from "lucide-react";
+import gemImg from "@assets/144CE6E5-2DD9-4A76-98B0-3AFAFB7EDCDC_1767461756883.png";
 
 interface MinesGridProps {
   predictedSpots: number[]; // Array of indices (0-24)
@@ -37,11 +37,12 @@ export function MinesGrid({ predictedSpots, isAnimating }: MinesGridProps) {
                     damping: 20,
                     delay: index * 0.02 // Stagger effect based on index 
                   }}
-                  className="absolute inset-0 flex items-center justify-center bg-[#0f212e]/50"
+                  className="absolute inset-0 flex items-center justify-center p-2"
                 >
-                  <Star 
-                    className="w-8 h-8 text-[#ffbf00] fill-[#ffbf00] drop-shadow-[0_0_8px_rgba(255,191,0,0.6)]" 
-                    strokeWidth={1.5}
+                  <img 
+                    src={gemImg} 
+                    alt="Gem" 
+                    className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(0,231,1,0.4)]"
                   />
                 </motion.div>
               )}

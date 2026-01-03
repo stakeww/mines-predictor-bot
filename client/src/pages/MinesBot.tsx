@@ -5,6 +5,7 @@ import { Loader2, Dices } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import stakeLogo from "@assets/IMG_1152_1767458795544.png";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function MinesBot() {
   const [minesCount, setMinesCount] = useState<number>(3);
@@ -44,7 +45,10 @@ export default function MinesBot() {
           <img 
             src={stakeLogo} 
             alt="Mines Bot Logo" 
-            className="h-12 w-auto object-contain"
+            className="h-12 w-auto object-contain drop-shadow-[0_0_2px_rgba(0,0,0,1)] invert brightness-0"
+            style={{ 
+              filter: 'brightness(0) invert(1) drop-shadow(1px 1px 0px black) drop-shadow(-1px -1px 0px black) drop-shadow(1px -1px 0px black) drop-shadow(-1px 1px 0px black)' 
+            }}
           />
           <div className="h-8 w-[2px] bg-[#2f4553] rounded-full"></div>
           <div className="flex flex-col">
@@ -58,11 +62,41 @@ export default function MinesBot() {
             <MinesGrid predictedSpots={predictedSpots} isAnimating={isPending} />
             
             {/* Loading Overlay */}
-            {isPending && (
-              <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-[1px] rounded-xl">
-                 <Loader2 className="w-12 h-12 text-primary animate-spin" />
-              </div>
-            )}
+            <AnimatePresence>
+              {isPending && (
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 z-50 flex items-center justify-center bg-[#0f212e]/80 backdrop-blur-sm rounded-xl overflow-hidden"
+                >
+                   <div className="relative flex flex-col items-center gap-4">
+                     <div className="w-24 h-24 relative">
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                          className="absolute inset-0 border-4 border-primary/20 border-t-primary rounded-full"
+                        />
+                        <div className="absolute inset-4 flex items-center justify-center">
+                          <motion.div
+                            animate={{ scale: [0.8, 1.1, 0.8] }}
+                            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                          >
+                             <img src={stakeLogo} alt="Loading" className="w-12 h-12 object-contain opacity-50" />
+                          </motion.div>
+                        </div>
+                     </div>
+                     <motion.p
+                        animate={{ opacity: [0.4, 1, 0.4] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                        className="text-primary font-display font-black tracking-widest text-sm"
+                     >
+                        АНАЛИЗ...
+                     </motion.p>
+                   </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
         </div>
 
         {/* Controls */}
