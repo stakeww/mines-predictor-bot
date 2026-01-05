@@ -11,7 +11,7 @@ export function MinesGrid({ predictedSpots, isAnimating }: MinesGridProps) {
   const cells = Array.from({ length: 25 }, (_, i) => i);
 
   return (
-    <div className="grid grid-cols-5 gap-2 sm:gap-3 p-3 sm:p-5 bg-[#1a2c38] rounded-xl w-full max-w-[400px] aspect-square mx-auto">
+    <div className="grid grid-cols-5 gap-2 sm:gap-2.5 p-2 sm:p-2.5 bg-[#1a2c38] rounded-md w-full max-w-[400px] aspect-square mx-auto">
       {cells.map((index) => {
         const isPredicted = predictedSpots.includes(index);
 
@@ -19,8 +19,8 @@ export function MinesGrid({ predictedSpots, isAnimating }: MinesGridProps) {
           <div
             key={index}
             className={`
-              relative rounded-lg overflow-hidden
-              bg-[#2f4553] shadow-inner border-b-[3px] sm:border-b-4 border-[#213743]
+              relative rounded-md overflow-hidden
+              bg-[#2f4553] shadow-inner
               hover:bg-[#395261] transition-colors duration-200
               flex items-center justify-center
             `}
@@ -28,21 +28,21 @@ export function MinesGrid({ predictedSpots, isAnimating }: MinesGridProps) {
             <AnimatePresence>
               {isPredicted && !isAnimating && (
                 <motion.div
-                  initial={{ scale: 0, opacity: 0, rotate: -180 }}
-                  animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                  initial={{ scale: 0, opacity: 0, rotateY: 90 }}
+                  animate={{ scale: 1, opacity: 1, rotateY: 0 }}
                   exit={{ scale: 0, opacity: 0 }}
                   transition={{ 
                     type: "spring",
-                    stiffness: 260,
-                    damping: 20,
-                    delay: predictedSpots.indexOf(index) * 0.15 // Slightly slower stagger for better visual effect
+                    stiffness: 300,
+                    damping: 15,
+                    delay: predictedSpots.indexOf(index) * 0.12
                   }}
-                  className="absolute inset-0 flex items-center justify-center p-0.5"
+                  className="absolute inset-0 flex items-center justify-center p-1.5"
                 >
                   <img 
                     src={gemImg} 
                     alt="Gem" 
-                    className="w-[95%] h-[90%] object-contain"
+                    className="w-[85%] h-[85%] object-contain"
                   />
                 </motion.div>
               )}
