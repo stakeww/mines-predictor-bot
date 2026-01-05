@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import gemImg from "@assets/generated_images/original_stake_casino_mines_gem.png";
+import gemImg from "@assets/generated_images/flat_vector_diamond_gem_icon.png";
 
 interface MinesGridProps {
   predictedSpots: number[]; // Array of indices (0-24)
@@ -37,12 +37,12 @@ export function MinesGrid({ predictedSpots, isAnimating }: MinesGridProps) {
                     damping: 20,
                     delay: predictedSpots.indexOf(index) * 0.15 // Slightly slower stagger for better visual effect
                   }}
-                  className="absolute inset-0 flex items-center justify-center p-0.5"
+                  className="absolute inset-0 flex items-center justify-center p-1.5"
                 >
                   <img 
                     src={gemImg} 
                     alt="Gem" 
-                    className="w-[90%] h-[90%] object-contain drop-shadow-[0_0_12px_rgba(0,231,1,0.6)]"
+                    className="w-full h-full object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.3)]"
                   />
                 </motion.div>
               )}
