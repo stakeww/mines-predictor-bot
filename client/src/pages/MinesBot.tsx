@@ -95,8 +95,11 @@ export default function MinesBot() {
             </div>
           </div>
           <div className="flex gap-2">
-            <div className="w-8 h-8 rounded-md bg-[#213743] border border-white/5 flex items-center justify-center">
-              <div className="w-4 h-4 rounded-sm bg-primary/20 border border-primary/50"></div>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#213743] border border-white/5 shadow-inner">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
+              <span className="text-[10px] sm:text-xs font-black text-white font-mono tracking-tighter">
+                {Math.floor(Math.random() * (1450 - 1100 + 1)) + 1100}
+              </span>
             </div>
           </div>
         </header>
@@ -201,9 +204,8 @@ export default function MinesBot() {
           </button>
 
           <div className="flex justify-center mt-2">
-             <div className="flex items-center gap-2 text-xs text-[#2f4553] font-mono">
-                <Dices className="w-4 h-4" />
-                <span>PROVABLY FAIR</span>
+             <div className="flex items-center gap-2 text-[10px] text-[#2f4553] font-mono font-bold tracking-widest uppercase opacity-50">
+                <span>Provably Fair Control System</span>
              </div>
           </div>
         </div>
