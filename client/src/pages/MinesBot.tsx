@@ -78,62 +78,71 @@ export default function MinesBot() {
   return (
     <div className="min-h-screen bg-[#0f212e] flex flex-col items-center justify-start sm:justify-center py-4 sm:py-8 px-4 font-sans safe-area-inset">
       <div className="w-full max-w-[440px] flex flex-col gap-4 sm:gap-6">
-        <header className="flex items-center justify-center gap-4 py-2 sm:py-4 mb-1 sm:mb-2">
-          <img 
-            src={stakeLogo} 
-            alt="Mines Bot Logo" 
-            className="h-10 sm:h-12 w-auto object-contain"
-            style={{ 
-              filter: 'brightness(0) invert(1) drop-shadow(1px 1px 0px black) drop-shadow(-1px -1px 0px black) drop-shadow(1px -1px 0px black) drop-shadow(-1px 1px 0px black)' 
-            }}
-          />
-          <div className="h-6 sm:h-8 w-[2px] bg-[#2f4553] rounded-full"></div>
-          <div className="flex flex-col">
-            <span className="text-[10px] sm:text-sm font-bold text-muted-foreground leading-none">MINES</span>
-            <span className="text-[10px] sm:text-sm font-bold text-white leading-none">BOT</span>
+        <header className="flex items-center justify-between px-2 py-2 sm:py-4 mb-1 sm:mb-2">
+          <div className="flex items-center gap-4">
+            <img 
+              src={stakeLogo} 
+              alt="Mines Bot Logo" 
+              className="h-8 sm:h-10 w-auto object-contain"
+              style={{ 
+                filter: 'brightness(0) invert(1) drop-shadow(1px 1px 0px black) drop-shadow(-1px -1px 0px black) drop-shadow(1px -1px 0px black) drop-shadow(-1px 1px 0px black)' 
+              }}
+            />
+            <div className="h-6 sm:h-8 w-[2px] bg-[#2f4553] rounded-full"></div>
+            <div className="flex flex-col">
+              <span className="text-[10px] sm:text-sm font-bold text-muted-foreground leading-none">MINES</span>
+              <span className="text-[10px] sm:text-sm font-bold text-white leading-none">BOT</span>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <div className="w-8 h-8 rounded-md bg-[#213743] border border-white/5 flex items-center justify-center">
+              <div className="w-4 h-4 rounded-sm bg-primary/20 border border-primary/50"></div>
+            </div>
           </div>
         </header>
 
-        <div className="relative">
-            <MinesGrid predictedSpots={predictedSpots} isAnimating={isPending} />
-            <AnimatePresence>
-              {isPending && (
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute inset-0 z-50 flex items-center justify-center bg-[#0f212e]/80 backdrop-blur-sm rounded-xl overflow-hidden"
-                >
-                   <div className="relative flex flex-col items-center gap-4">
-                     <div className="w-24 h-24 relative">
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                          className="absolute inset-0 border-4 border-primary/20 border-t-primary rounded-full"
-                        />
-                        <div className="absolute inset-4 flex items-center justify-center">
+        <div className="bg-[#1a2c38] p-1 sm:p-2 rounded-xl shadow-2xl border border-white/5">
+          <div className="relative">
+              <MinesGrid predictedSpots={predictedSpots} isAnimating={isPending} />
+              <AnimatePresence>
+                {isPending && (
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 z-50 flex items-center justify-center bg-[#0f212e]/90 backdrop-blur-md rounded-xl overflow-hidden"
+                  >
+                     <div className="relative flex flex-col items-center gap-4">
+                       <div className="w-24 h-24 relative">
                           <motion.div
-                            animate={{ scale: [0.8, 1.1, 0.8] }}
-                            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                          >
-                             <img src={stakeLogo} alt="Loading" className="w-12 h-12 object-contain opacity-50" />
-                          </motion.div>
-                        </div>
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                            className="absolute inset-0 border-4 border-primary/20 border-t-primary rounded-full"
+                          />
+                          <div className="absolute inset-4 flex items-center justify-center">
+                            <motion.div
+                              animate={{ scale: [0.8, 1.1, 0.8] }}
+                              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                            >
+                               <img src={stakeLogo} alt="Loading" className="w-12 h-12 object-contain opacity-50" />
+                            </motion.div>
+                          </div>
+                       </div>
+                       <motion.p
+                          animate={{ opacity: [0.4, 1, 0.4] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                          className="text-primary font-display font-black tracking-widest text-sm"
+                       >
+                          ANALYZING...
+                       </motion.p>
                      </div>
-                     <motion.p
-                        animate={{ opacity: [0.4, 1, 0.4] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                        className="text-primary font-display font-black tracking-widest text-sm"
-                     >
-                        ANALYZING...
-                     </motion.p>
-                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+          </div>
         </div>
 
-        <div className="bg-card rounded-t-2xl p-6 flex flex-col gap-5 shadow-2xl border-t border-white/5 mt-4">
+        <div className="bg-[#213743] rounded-2xl p-6 flex flex-col gap-5 shadow-2xl border border-white/10">
           <div className="space-y-2">
             <div className="flex justify-between items-end">
               <label className="text-sm font-semibold text-white/90">Mines</label>
