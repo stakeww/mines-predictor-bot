@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import gemImg from "@assets/144CE6E5-2DD9-4A76-98B0-3AFAFB7EDCDC_1767461756883.png";
+import gemImg from "@assets/generated_images/original_stake_casino_mines_gem.png";
 
 interface MinesGridProps {
   predictedSpots: number[]; // Array of indices (0-24)
