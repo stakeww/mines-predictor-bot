@@ -19,8 +19,11 @@ export default function MinesBot() {
     return () => clearTimeout(timer);
   }, []);
 
+  const [predictionKey, setPredictionId] = useState(0);
+
   const handlePredict = () => {
     setPredictedSpots([]);
+    setPredictionId(prev => prev + 1);
     getPrediction(minesCount, {
       onSuccess: (data) => {
         setPredictedSpots(data.predictedSpots);
@@ -106,7 +109,7 @@ export default function MinesBot() {
 
         <div className="bg-[#1a2c38] p-1 sm:p-2 rounded-xl shadow-2xl border border-white/5">
           <div className="relative">
-              <MinesGrid predictedSpots={predictedSpots} isAnimating={isPending} />
+              <MinesGrid key={predictionKey} predictedSpots={predictedSpots} isAnimating={isPending} />
               <AnimatePresence>
                 {isPending && (
                   <motion.div 
