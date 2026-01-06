@@ -122,7 +122,7 @@ export default function MinesBot() {
       signalsToday: "Сигналов сегодня",
       analyzing: "АНАЛИЗ...",
       getSignal: "GET SIGNAL",
-      calculating: "ANALYZING...",
+      calculating: "АНАЛИЗ...",
       mines: "Мины",
       recentActivity: "ПОСЛЕДНЯЯ АКТИВНОСТЬ",
       hint1: "1. Перейдите в Настройки на Stake.",
