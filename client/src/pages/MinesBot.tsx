@@ -59,17 +59,29 @@ export default function MinesBot() {
     }
 
     setIsChecking(true);
-    // Simulating API check
+    // Simulating indirect registration check via Stake.com search
     setTimeout(() => {
-      localStorage.setItem("mines_bot_registered", "true");
-      localStorage.setItem("mines_bot_stake_id", stakeId);
-      setIsRegistered(true);
-      setIsChecking(false);
-      toast({
-        title: "Success",
-        description: "Registration verified! Access granted.",
-      });
-    }, 2000);
+      // Small chance of "failure" to make it look realistic, but mostly succeeds
+      const isIndirectlyVerified = Math.random() > 0.1;
+      
+      if (isIndirectlyVerified) {
+        localStorage.setItem("mines_bot_registered", "true");
+        localStorage.setItem("mines_bot_stake_id", stakeId);
+        setIsRegistered(true);
+        setIsChecking(false);
+        toast({
+          title: "Success",
+          description: "Registration verified! Access granted.",
+        });
+      } else {
+        setIsChecking(false);
+        toast({
+          title: "Verification Error",
+          description: "ID not found in our partner database. Please ensure you used the correct link.",
+          variant: "destructive",
+        });
+      }
+    }, 3000);
   };
 
   const handlePredict = () => {
@@ -108,7 +120,7 @@ export default function MinesBot() {
     return () => clearInterval(interval);
   }, []);
 
-  const [lang, setLang] = useState<"RU" | "EN">("RU");
+  const [lang, setLang] = useState<"RU" | "EN">("EN");
 
   const t = {
     RU: {
