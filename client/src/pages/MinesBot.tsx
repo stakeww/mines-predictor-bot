@@ -40,6 +40,58 @@ export default function MinesBot() {
 
   const mineOptions = Array.from({ length: 24 }, (_, i) => i + 1);
 
+  const [isRegistered, setIsRegistered] = useState(() => {
+    return localStorage.getItem("mines_bot_registered") === "true";
+  });
+
+  const handleRegister = () => {
+    window.open("https://stake.com/?c=Minebot", "_blank");
+    localStorage.setItem("mines_bot_registered", "true");
+    setIsRegistered(true);
+  };
+
+  if (!isRegistered) {
+    return (
+      <div className="min-h-screen bg-[#0f212e] flex flex-col items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-[440px] bg-[#1a2c38] rounded-2xl p-8 border border-white/10 shadow-2xl flex flex-col items-center gap-6 text-center"
+        >
+          <img 
+            src={stakeLogo} 
+            alt="Logo" 
+            className="h-16 w-auto object-contain mb-2"
+            style={{ filter: 'brightness(0) invert(1)' }}
+          />
+          <div className="space-y-2">
+            <h1 className="text-2xl font-display font-black text-white tracking-tight">REGISTRATION REQUIRED</h1>
+            <p className="text-muted-foreground text-sm font-medium leading-relaxed">
+              To get access to premium signals, you need to register on Stake.com using our partner link.
+            </p>
+          </div>
+
+          <button
+            onClick={handleRegister}
+            className="
+              w-full h-14 rounded-md font-display font-black text-lg tracking-wide
+              bg-primary text-primary-foreground
+              hover:brightness-110 active:scale-[0.98]
+              shadow-[0_4px_0_0_#00b500] active:shadow-none active:translate-y-[4px]
+              transition-all duration-150 ease-out
+            "
+          >
+            REGISTER & GET ACCESS
+          </button>
+          
+          <p className="text-[10px] text-muted-foreground/50 uppercase font-bold tracking-widest">
+            Already registered? Click above to confirm
+          </p>
+        </motion.div>
+      </div>
+    );
+  }
+
   if (isInitializing) {
     return (
       <div className="min-h-screen bg-[#0f212e] flex flex-col items-center justify-center p-4">
