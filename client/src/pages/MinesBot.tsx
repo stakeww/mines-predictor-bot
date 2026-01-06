@@ -249,7 +249,10 @@ export default function MinesBot() {
           </div>
         </header>
 
-        <div className="bg-[#1a2c38] p-1 sm:p-2 rounded-xl shadow-2xl border border-white/5">
+        <div className="bg-[#1a2c38] p-1 sm:p-2 rounded-xl shadow-2xl border border-white/5 relative group">
+          <div className="absolute -top-3 -right-3 z-10 bg-primary text-primary-foreground text-[10px] font-black px-2 py-1 rounded shadow-lg rotate-12 group-hover:rotate-0 transition-transform">
+            AI POWERED
+          </div>
           <div className="relative">
               <MinesGrid key={predictionKey} predictedSpots={predictedSpots} isAnimating={isPending} />
               <AnimatePresence>
@@ -336,8 +339,10 @@ export default function MinesBot() {
               shadow-[0_4px_0_0_#00b500] active:shadow-none active:translate-y-[4px]
               transition-all duration-150 ease-out
               flex items-center justify-center gap-2
+              relative overflow-hidden group
             "
           >
+            <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 skew-x-[-20deg]" />
             {isPending ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -349,8 +354,17 @@ export default function MinesBot() {
           </button>
 
           <div className="flex justify-center mt-2">
-             <div className="flex items-center gap-2 text-[10px] text-[#2f4553] font-mono font-bold tracking-widest uppercase opacity-50">
-                <span>Provably Fair Control System</span>
+             <div className="flex flex-col items-center gap-3">
+               <div className="flex items-center gap-2 text-[10px] text-[#2f4553] font-mono font-bold tracking-widest uppercase opacity-50">
+                  <span>Provably Fair Control System</span>
+               </div>
+               <div className="flex items-center gap-4 opacity-40 grayscale hover:grayscale-0 transition-all duration-300">
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-3 w-auto" />
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-3 w-auto" />
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-4 w-auto" />
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" alt="Bitcoin" className="h-4 w-auto" />
+               </div>
+               <p className="text-[9px] text-muted-foreground/30 font-medium">© 2024 MinesPredictor AI. Not affiliated with Stake.com</p>
              </div>
           </div>
         </div>
