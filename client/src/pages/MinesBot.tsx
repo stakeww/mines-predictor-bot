@@ -48,6 +48,8 @@ export default function MinesBot() {
   });
   const [isChecking, setIsChecking] = useState(false);
 
+  const [showIdHint, setShowIdHint] = useState(false);
+
   const handleRegister = () => {
     window.open("https://stake.com/?c=Minebot", "_blank");
   };
@@ -110,10 +112,36 @@ export default function MinesBot() {
               1. OPEN STAKE.COM
             </button>
 
-            <div className="space-y-2 text-left">
-              <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest ml-1">
-                2. ENTER YOUR STAKE ID
-              </label>
+            <div className="space-y-2 text-left relative">
+              <div className="flex justify-between items-center px-1">
+                <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
+                  2. ENTER YOUR STAKE ID
+                </label>
+                <button 
+                  onClick={() => setShowIdHint(!showIdHint)}
+                  className="text-[10px] font-bold text-primary hover:underline uppercase tracking-widest"
+                >
+                  Where to find?
+                </button>
+              </div>
+
+              <AnimatePresence>
+                {showIdHint && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="bg-[#0f212e] p-3 rounded-md border border-primary/20 mb-2 text-[11px] text-white/70 space-y-2">
+                      <p>1. Go to <span className="text-white font-bold">Settings</span> on Stake.</p>
+                      <p>2. Open <span className="text-white font-bold">General</span> tab.</p>
+                      <p>3. Your ID is your <span className="text-white font-bold">Username</span> (shown at the top).</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <input 
                 type="text"
                 value={stakeId}
