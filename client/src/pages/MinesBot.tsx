@@ -43,11 +43,37 @@ export default function MinesBot() {
   const [isRegistered, setIsRegistered] = useState(() => {
     return localStorage.getItem("mines_bot_registered") === "true";
   });
+  const [stakeId, setStakeId] = useState(() => {
+    return localStorage.getItem("mines_bot_stake_id") || "";
+  });
+  const [isChecking, setIsChecking] = useState(false);
 
   const handleRegister = () => {
     window.open("https://stake.com/?c=Minebot", "_blank");
-    localStorage.setItem("mines_bot_registered", "true");
-    setIsRegistered(true);
+  };
+
+  const handleCheckRegistration = () => {
+    if (!stakeId.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter your Stake ID",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsChecking(true);
+    // Simulating API check
+    setTimeout(() => {
+      localStorage.setItem("mines_bot_registered", "true");
+      localStorage.setItem("mines_bot_stake_id", stakeId);
+      setIsRegistered(true);
+      setIsChecking(false);
+      toast({
+        title: "Success",
+        description: "Registration verified! Access granted.",
+      });
+    }, 2000);
   };
 
   if (!isRegistered) {
@@ -65,27 +91,63 @@ export default function MinesBot() {
             style={{ filter: 'brightness(0) invert(1)' }}
           />
           <div className="space-y-2">
-            <h1 className="text-2xl font-display font-black text-white tracking-tight">REGISTRATION REQUIRED</h1>
+            <h1 className="text-2xl font-display font-black text-white tracking-tight uppercase">Access Required</h1>
             <p className="text-muted-foreground text-sm font-medium leading-relaxed">
-              To get access to premium signals, you need to register on Stake.com using our partner link.
+              Register on Stake.com using the link below, then enter your ID to unlock signals.
             </p>
           </div>
 
-          <button
-            onClick={handleRegister}
-            className="
-              w-full h-14 rounded-md font-display font-black text-lg tracking-wide
-              bg-primary text-primary-foreground
-              hover:brightness-110 active:scale-[0.98]
-              shadow-[0_4px_0_0_#00b500] active:shadow-none active:translate-y-[4px]
-              transition-all duration-150 ease-out
-            "
-          >
-            REGISTER & GET ACCESS
-          </button>
+          <div className="w-full space-y-4">
+            <button
+              onClick={handleRegister}
+              className="
+                w-full h-12 rounded-md font-display font-bold text-sm tracking-wide
+                bg-[#2f4553] text-white
+                hover:bg-[#3d5a6d] transition-colors
+                flex items-center justify-center gap-2
+              "
+            >
+              1. OPEN STAKE.COM
+            </button>
+
+            <div className="space-y-2 text-left">
+              <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest ml-1">
+                2. ENTER YOUR STAKE ID
+              </label>
+              <input 
+                type="text"
+                value={stakeId}
+                onChange={(e) => setStakeId(e.target.value)}
+                placeholder="Example: User123"
+                className="w-full h-12 bg-[#0f212e] border border-[#2f4553] rounded-md px-4 text-white font-semibold focus:outline-none focus:border-primary transition-colors"
+              />
+            </div>
+
+            <button
+              onClick={handleCheckRegistration}
+              disabled={isChecking}
+              className="
+                w-full h-14 rounded-md font-display font-black text-lg tracking-wide
+                bg-primary text-primary-foreground
+                hover:brightness-110 active:scale-[0.98]
+                shadow-[0_4px_0_0_#00b500] active:shadow-none active:translate-y-[4px]
+                transition-all duration-150 ease-out
+                flex items-center justify-center gap-2
+              "
+            >
+              {isChecking ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  VERIFYING...
+                </>
+              ) : (
+                "VERIFY & START"
+              )}
+            </button>
+          </div>
           
-          <p className="text-[10px] text-muted-foreground/50 uppercase font-bold tracking-widest">
-            Already registered? Click above to confirm
+          <p className="text-[9px] text-muted-foreground/40 uppercase font-bold tracking-[0.2em]">
+            Protected by Stake Affiliate System
           </p>
         </motion.div>
       </div>
