@@ -18,7 +18,7 @@ export function MinesGrid({ predictedSpots, isAnimating }: MinesGridProps) {
 
   const playRevealSound = (index: number) => {
     if (audioRef.current) {
-      const delay = predictedSpots.indexOf(index) * 120;
+      const delay = predictedSpots.indexOf(index) * 250;
       setTimeout(() => {
         const sound = audioRef.current?.cloneNode() as HTMLAudioElement;
         if (sound) {
@@ -62,7 +62,7 @@ export function MinesGrid({ predictedSpots, isAnimating }: MinesGridProps) {
                     type: "spring",
                     stiffness: 300,
                     damping: 15,
-                    delay: predictedSpots.indexOf(index) * 0.12
+                    delay: predictedSpots.indexOf(index) * 0.25
                   }}
                   className="absolute inset-0 flex items-center justify-center p-1.5"
                 >
