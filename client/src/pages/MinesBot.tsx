@@ -408,7 +408,7 @@ export default function MinesBot() {
 
           <div className="space-y-2 text-center">
             <p className="text-xs font-medium text-muted-foreground/80 uppercase tracking-widest">
-              {t[lang].getSignal}
+              AI PREDICTION ACTIVE
             </p>
           </div>
 
