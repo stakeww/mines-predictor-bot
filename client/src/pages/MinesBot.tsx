@@ -240,11 +240,16 @@ export default function MinesBot() {
             </div>
           </div>
           <div className="flex gap-2">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#213743] border border-white/5 shadow-inner">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
-              <span className="text-[10px] sm:text-xs font-black text-white font-mono tracking-tighter">
-                {Math.floor(Math.random() * (1450 - 1100 + 1)) + 1100}
-              </span>
+            <div className="flex flex-col items-end gap-1">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#213743] border border-white/5 shadow-inner">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
+                <span className="text-[10px] sm:text-xs font-black text-white font-mono tracking-tighter">
+                  {Math.floor(Math.random() * (1450 - 1100 + 1)) + 1100}
+                </span>
+              </div>
+              <div className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded border border-primary/20">
+                Signals Today: {Math.floor(Math.random() * (8500 - 7200 + 1)) + 7200}
+              </div>
             </div>
           </div>
         </header>
