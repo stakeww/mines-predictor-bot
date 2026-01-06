@@ -92,9 +92,70 @@ export default function MinesBot() {
 
   const mineOptions = Array.from({ length: 24 }, (_, i) => i + 1);
 
+  const [recentSignals, setRecentSignals] = useState<{id: string, user: string, mines: number, time: string}[]>([]);
+
+  useEffect(() => {
+    const names = ["User", "Player", "Lucky", "Stake", "Mines"];
+    const interval = setInterval(() => {
+      const newSignal = {
+        id: Math.random().toString(36).substr(2, 9),
+        user: `${names[Math.floor(Math.random() * names.length)]}${Math.floor(Math.random() * 9999)}`,
+        mines: Math.floor(Math.random() * 5) + 1,
+        time: "Just now"
+      };
+      setRecentSignals(prev => [newSignal, ...prev].slice(0, 3));
+    }, 8000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const [lang, setLang] = useState<"RU" | "EN">("RU");
+
+  const t = {
+    RU: {
+      regRequired: "ТРЕБУЕТСЯ РЕГИСТРАЦИЯ",
+      regDesc: "Для доступа к премиум-сигналам необходимо зарегистрироваться на Stake.com по нашей ссылке.",
+      openStake: "1. ОТКРЫТЬ STAKE.COM",
+      enterId: "2. ВВЕДИТЕ ВАШ STAKE ID",
+      whereToFind: "Где найти?",
+      verify: "ПРОВЕРИТЬ И НАЧАТЬ",
+      verifying: "ПРОВЕРКА...",
+      signalsToday: "Сигналов сегодня",
+      analyzing: "АНАЛИЗ...",
+      getSignal: "ПОЛУЧИТЬ СИГНАЛ",
+      calculating: "РАСЧЕТ...",
+      mines: "Мины",
+      recentActivity: "ПОСЛЕДНЯЯ АКТИВНОСТЬ",
+      hint1: "1. Перейдите в Настройки на Stake.",
+      hint2: "2. Откройте вкладку Общие.",
+      hint3: "3. Ваш ID — это имя пользователя (вверху)."
+    },
+    EN: {
+      regRequired: "REGISTRATION REQUIRED",
+      regDesc: "To get access to premium signals, you need to register on Stake.com using our partner link.",
+      openStake: "1. OPEN STAKE.COM",
+      enterId: "2. ENTER YOUR STAKE ID",
+      whereToFind: "Where to find?",
+      verify: "VERIFY & START",
+      verifying: "VERIFYING...",
+      signalsToday: "Signals Today",
+      analyzing: "ANALYZING...",
+      getSignal: "GET SIGNAL",
+      calculating: "CALCULATING...",
+      mines: "Mines",
+      recentActivity: "RECENT ACTIVITY",
+      hint1: "1. Go to Settings on Stake.",
+      hint2: "2. Open General tab.",
+      hint3: "3. Your ID is your Username (shown at the top)."
+    }
+  };
+
   if (!isRegistered) {
     return (
       <div className="min-h-screen bg-[#0f212e] flex flex-col items-center justify-center p-4">
+        <div className="absolute top-4 right-4 flex gap-2">
+          <button onClick={() => setLang("RU")} className={`text-[10px] font-bold px-2 py-1 rounded ${lang === "RU" ? "bg-primary text-black" : "bg-white/10 text-white"}`}>RU</button>
+          <button onClick={() => setLang("EN")} className={`text-[10px] font-bold px-2 py-1 rounded ${lang === "EN" ? "bg-primary text-black" : "bg-white/10 text-white"}`}>EN</button>
+        </div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -107,9 +168,9 @@ export default function MinesBot() {
             style={{ filter: 'brightness(0) invert(1)' }}
           />
           <div className="space-y-2">
-            <h1 className="text-2xl font-display font-black text-white tracking-tight uppercase">Access Required</h1>
+            <h1 className="text-2xl font-display font-black text-white tracking-tight uppercase">{t[lang].regRequired}</h1>
             <p className="text-muted-foreground text-sm font-medium leading-relaxed">
-              Register on Stake.com using the link below, then enter your ID to unlock signals.
+              {t[lang].regDesc}
             </p>
           </div>
 
@@ -123,19 +184,19 @@ export default function MinesBot() {
                 flex items-center justify-center gap-2
               "
             >
-              1. OPEN STAKE.COM
+              {t[lang].openStake}
             </button>
 
             <div className="space-y-2 text-left relative">
               <div className="flex justify-between items-center px-1">
                 <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
-                  2. ENTER YOUR STAKE ID
+                  {t[lang].enterId}
                 </label>
                 <button 
                   onClick={() => setShowIdHint(!showIdHint)}
                   className="text-[10px] font-bold text-primary hover:underline uppercase tracking-widest"
                 >
-                  Where to find?
+                  {t[lang].whereToFind}
                 </button>
               </div>
 
@@ -148,9 +209,9 @@ export default function MinesBot() {
                     className="overflow-hidden"
                   >
                     <div className="bg-[#0f212e] p-3 rounded-md border border-primary/20 mb-2 text-[11px] text-white/70 space-y-2">
-                      <p>1. Go to <span className="text-white font-bold">Settings</span> on Stake.</p>
-                      <p>2. Open <span className="text-white font-bold">General</span> tab.</p>
-                      <p>3. Your ID is your <span className="text-white font-bold">Username</span> (shown at the top).</p>
+                      <p>{t[lang].hint1}</p>
+                      <p>{t[lang].hint2}</p>
+                      <p>{t[lang].hint3}</p>
                     </div>
                   </motion.div>
                 )}
@@ -180,10 +241,10 @@ export default function MinesBot() {
               {isChecking ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  VERIFYING...
+                  {t[lang].verifying}
                 </>
               ) : (
-                "VERIFY & START"
+                t[lang].verify
               )}
             </button>
           </div>
@@ -262,13 +323,17 @@ export default function MinesBot() {
                 </span>
               </div>
               <div className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded border border-primary/20">
-                Signals Today: {stats.signals}
+                {t[lang].signalsToday}: {stats.signals}
               </div>
             </div>
           </div>
         </header>
 
         <div className="bg-[#1a2c38] p-1 sm:p-2 rounded-xl shadow-2xl border border-white/5 relative group">
+          <div className="absolute top-2 left-2 z-10 flex gap-1">
+            <button onClick={() => setLang("RU")} className={`text-[8px] font-bold px-1.5 py-0.5 rounded ${lang === "RU" ? "bg-primary text-black" : "bg-white/10 text-white"}`}>RU</button>
+            <button onClick={() => setLang("EN")} className={`text-[8px] font-bold px-1.5 py-0.5 rounded ${lang === "EN" ? "bg-primary text-black" : "bg-white/10 text-white"}`}>EN</button>
+          </div>
           <div className="absolute -top-3 -right-3 z-10 bg-primary text-primary-foreground text-[10px] font-black px-2 py-1 rounded shadow-lg rotate-12 group-hover:rotate-0 transition-transform">
             AI POWERED
           </div>
@@ -303,7 +368,7 @@ export default function MinesBot() {
                           transition={{ duration: 1.5, repeat: Infinity }}
                           className="text-primary font-display font-black tracking-widest text-sm"
                        >
-                          ANALYZING...
+                          {t[lang].analyzing}
                        </motion.p>
                      </div>
                   </motion.div>
@@ -315,7 +380,7 @@ export default function MinesBot() {
         <div className="bg-[#213743] rounded-2xl p-6 flex flex-col gap-5 shadow-2xl border border-white/10">
           <div className="space-y-2">
             <div className="flex justify-between items-end">
-              <label className="text-sm font-semibold text-white/90">Mines</label>
+              <label className="text-sm font-semibold text-white/90">{t[lang].mines}</label>
               <span className="text-xs text-muted-foreground font-medium">1-24 mines</span>
             </div>
             
@@ -343,7 +408,7 @@ export default function MinesBot() {
 
           <div className="space-y-2 text-center">
             <p className="text-xs font-medium text-muted-foreground/80 uppercase tracking-widest">
-              Get Signal
+              {t[lang].getSignal}
             </p>
           </div>
 
@@ -354,7 +419,6 @@ export default function MinesBot() {
               w-full h-14 rounded-md font-display font-black text-lg tracking-wide
               bg-primary text-primary-foreground
               hover:brightness-110 active:scale-[0.98]
-              disabled:opacity-50 disabled:cursor-not-allowed
               shadow-[0_4px_0_0_#00b500] active:shadow-none active:translate-y-[4px]
               transition-all duration-150 ease-out
               flex items-center justify-center gap-2
@@ -365,26 +429,53 @@ export default function MinesBot() {
             {isPending ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                CALCULATING...
+                {t[lang].calculating}
               </>
             ) : (
-              "GET SIGNAL"
+              t[lang].getSignal
             )}
           </button>
 
-          <div className="flex justify-center mt-2">
-             <div className="flex flex-col items-center gap-3">
-               <div className="flex items-center gap-2 text-[10px] text-[#2f4553] font-mono font-bold tracking-widest uppercase opacity-50">
-                  <span>Provably Fair Control System</span>
+          <div className="mt-2 space-y-4">
+            <div className="flex flex-col gap-2">
+              <span className="text-[10px] font-black text-muted-foreground/50 uppercase tracking-widest text-center">
+                {t[lang].recentActivity}
+              </span>
+              <div className="space-y-2">
+                <AnimatePresence mode="popLayout">
+                  {recentSignals.map((signal) => (
+                    <motion.div
+                      key={signal.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      className="bg-[#0f212e] p-2 rounded border border-white/5 flex justify-between items-center"
+                    >
+                      <div className="flex flex-col">
+                        <span className="text-[10px] text-white font-bold">{signal.user}</span>
+                        <span className="text-[8px] text-muted-foreground uppercase">{t[lang].mines}: {signal.mines}</span>
+                      </div>
+                      <span className="text-[8px] font-black text-primary uppercase bg-primary/5 px-1.5 py-0.5 rounded border border-primary/10">WIN SIGNAL</span>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            </div>
+
+            <div className="flex justify-center border-t border-white/5 pt-4">
+               <div className="flex flex-col items-center gap-3">
+                 <div className="flex items-center gap-2 text-[10px] text-[#2f4553] font-mono font-bold tracking-widest uppercase opacity-50">
+                    <span>Provably Fair Control System</span>
+                 </div>
+                 <div className="flex items-center gap-4 opacity-40 grayscale hover:grayscale-0 transition-all duration-300">
+                   <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-3 w-auto" />
+                   <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-3 w-auto" />
+                   <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-4 w-auto" />
+                   <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" alt="Bitcoin" className="h-4 w-auto" />
+                 </div>
+                 <p className="text-[9px] text-muted-foreground/30 font-medium">© 2024 MinesPredictor AI. Not affiliated with Stake.com</p>
                </div>
-               <div className="flex items-center gap-4 opacity-40 grayscale hover:grayscale-0 transition-all duration-300">
-                 <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-3 w-auto" />
-                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-3 w-auto" />
-                 <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-4 w-auto" />
-                 <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" alt="Bitcoin" className="h-4 w-auto" />
-               </div>
-               <p className="text-[9px] text-muted-foreground/30 font-medium">© 2024 MinesPredictor AI. Not affiliated with Stake.com</p>
-             </div>
+            </div>
           </div>
         </div>
       </div>
