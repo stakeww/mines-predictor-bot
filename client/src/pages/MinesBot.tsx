@@ -121,7 +121,7 @@ export default function MinesBot() {
       verifying: "ПРОВЕРКА...",
       signalsToday: "Сигналов сегодня",
       analyzing: "АНАЛИЗ...",
-      getSignal: "GET PREDICTION",
+      getSignal: "GET SIGNAL",
       calculating: "ANALYZING...",
       mines: "Мины",
       recentActivity: "ПОСЛЕДНЯЯ АКТИВНОСТЬ",
@@ -139,7 +139,7 @@ export default function MinesBot() {
       verifying: "VERIFYING...",
       signalsToday: "Signals Today",
       analyzing: "ANALYZING...",
-      getSignal: "GET PREDICTION",
+      getSignal: "GET SIGNAL",
       calculating: "ANALYZING...",
       mines: "Mines",
       recentActivity: "RECENT ACTIVITY",
@@ -335,7 +335,7 @@ export default function MinesBot() {
             <button onClick={() => setLang("EN")} className={`text-[8px] font-bold px-1.5 py-0.5 rounded ${lang === "EN" ? "bg-primary text-black" : "bg-white/10 text-white"}`}>EN</button>
           </div>
           <div className="absolute -top-3 -right-3 z-10 bg-primary text-primary-foreground text-[10px] font-black px-2 py-1 rounded shadow-lg rotate-12 group-hover:rotate-0 transition-transform">
-            AI POWERED
+            AI PREDICTION ACTIVE
           </div>
           <div className="relative">
               <MinesGrid key={predictionKey} predictedSpots={predictedSpots} isAnimating={isPending} />
