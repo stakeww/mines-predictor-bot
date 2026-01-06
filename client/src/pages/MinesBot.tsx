@@ -13,32 +13,27 @@ export default function MinesBot() {
   const { mutate: getPrediction, isPending } = useCreatePrediction();
   const { toast } = useToast();
   const [isInitializing, setIsInitializing] = useState(true);
+  const [predictionKey, setPredictionId] = useState(0);
+  
+  const [stats, setStats] = useState({
+    online: Math.floor(Math.random() * (1450 - 1100 + 1)) + 1100,
+    signals: Math.floor(Math.random() * (8500 - 7200 + 1)) + 7200
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => setIsInitializing(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  const [predictionKey, setPredictionId] = useState(0);
-
-  const handlePredict = () => {
-    setPredictedSpots([]);
-    setPredictionId(prev => prev + 1);
-    getPrediction(minesCount, {
-      onSuccess: (data) => {
-        setPredictedSpots(data.predictedSpots);
-      },
-      onError: (error) => {
-        toast({
-          title: "Error",
-          description: error.message,
-          variant: "destructive",
-        });
-      },
-    });
-  };
-
-  const mineOptions = Array.from({ length: 24 }, (_, i) => i + 1);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setStats(prev => ({
+        online: prev.online + (Math.random() > 0.5 ? 1 : -1),
+        signals: prev.signals + (Math.random() > 0.7 ? 1 : 0)
+      }));
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   const [isRegistered, setIsRegistered] = useState(() => {
     return localStorage.getItem("mines_bot_registered") === "true";
@@ -47,7 +42,6 @@ export default function MinesBot() {
     return localStorage.getItem("mines_bot_stake_id") || "";
   });
   const [isChecking, setIsChecking] = useState(false);
-
   const [showIdHint, setShowIdHint] = useState(false);
 
   const handleRegister = () => {
@@ -77,6 +71,26 @@ export default function MinesBot() {
       });
     }, 2000);
   };
+
+  const handlePredict = () => {
+    setPredictedSpots([]);
+    setPredictionId(prev => prev + 1);
+    setStats(prev => ({ ...prev, signals: prev.signals + 1 }));
+    getPrediction(minesCount, {
+      onSuccess: (data) => {
+        setPredictedSpots(data.predictedSpots);
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+    });
+  };
+
+  const mineOptions = Array.from({ length: 24 }, (_, i) => i + 1);
 
   if (!isRegistered) {
     return (
@@ -244,11 +258,11 @@ export default function MinesBot() {
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#213743] border border-white/5 shadow-inner">
                 <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
                 <span className="text-[10px] sm:text-xs font-black text-white font-mono tracking-tighter">
-                  {Math.floor(Math.random() * (1450 - 1100 + 1)) + 1100}
+                  {stats.online}
                 </span>
               </div>
               <div className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded border border-primary/20">
-                Signals Today: {Math.floor(Math.random() * (8500 - 7200 + 1)) + 7200}
+                Signals Today: {stats.signals}
               </div>
             </div>
           </div>
